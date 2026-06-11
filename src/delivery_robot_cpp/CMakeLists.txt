@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.8)
 project(delivery_robot_cpp)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
@@ -13,7 +16,16 @@ find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-add_executable(task_manager_node src/task_manager_node.cpp)
+add_executable(task_manager_node 
+  src/task_manager_node.cpp
+  src/parsing/task_parser.cpp
+  src/state_machine/task_state_machine.cpp
+)
+
+target_include_directories(task_manager_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 ament_target_dependencies(task_manager_node
   rclcpp
