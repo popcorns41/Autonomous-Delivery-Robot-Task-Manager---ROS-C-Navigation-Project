@@ -1,0 +1,14 @@
+services:
+  ros-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ros2_humble_delivery_robot_dev
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    environment:
+      - ROS_DOMAIN_ID=42
+    command: sleep infinity
